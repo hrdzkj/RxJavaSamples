@@ -13,4 +13,6 @@ import io.reactivex.Observable;
 public interface ZhuangbiApi {
     @GET("search")
     Observable<List<ZhuangbiImage>> search(@Query("q") String query);
+
+
 }

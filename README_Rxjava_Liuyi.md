@@ -1,0 +1,57 @@
+rxjava是可观测序列的异步的，基于事件的程序库。
+利用图来写代码
+****************************************
+除了 Observer 接口之外，RxJava 还内置了一个实现了 Observer 的抽象类Subscriber。 Subscriber 对 Observer 接口进行了一些扩展.
+
+**********************************
+Action1:subscribe() 还支持不完整定义的回调（如果只关系收到事件），RxJava 会自动根据定义创建出 Subscriber.（同理 Func1，Consumer）如下：
+Action1<String> onNextAction = new Action1<String>() {
+    // onNext()
+    @Override
+    public void call(String s) {
+        Log.d(tag, s);
+    }
+};
+Action1<Throwable> onErrorAction = new Action1<Throwable>() {
+    // onError()
+    @Override
+    public void call(Throwable throwable) {
+        // Error handling
+    }
+};
+Action0 onCompletedAction = new Action0() {
+    // onCompleted()
+    @Override
+    public void call() {
+        Log.d(tag, "completed");
+    }
+};
+
+// 自动创建 Subscriber ，并使用 onNextAction 来定义 onNext()
+observable.subscribe(onNextAction);
+// 自动创建 Subscriber ，并使用 onNextAction 和 onErrorAction 来定义 onNext() 和 onError()
+observable.subscribe(onNextAction, onErrorAction);
+// 自动创建 Subscriber ，并使用 onNextAction、 onErrorAction 和 onCompletedAction 来定义 onNext()、 onError() 和 onCompleted()
+observable.subscribe(onNextAction, onErrorAction, onCompletedAction);
+*********************************
+
+
+Observable 即被观察者，它决定什么时候触发事件以及触发怎样的事件。
+Observer 即观察者，它决定事件触发的时候将有怎样的行为
+
+create() 方法是 RxJava 最基本的创造事件序列的方法。基于这个方法， RxJava 还提供了一些方法用来快捷创建可观察者的方法：just,from(T[])/from(Iterable<? extends T>)
+
+*******************************
+在 RxJava 的默认规则中，事件的发出和消费都是在同一个线程的。
+在不指定线程的情况下， RxJava 遵循的是线程不变的原则，即：
+在哪个线程调用subscribe()发起订阅，就在哪个线程生产事件；在哪个线程生产事件，就在哪个线程消费事件。如果需要切换线程，就需要用到 Scheduler （调度器）。
+
+subscribeOn(): 指定 subscribe() 所发生的线程。
+observeOn(): 指定 Subscriber 所运行在的线程。或者叫做事件消费的线程。
+不同于 observeOn() ， subscribeOn() 的位置放在哪里都可以，但它是只能调用一次的。
+*******************************
+
+retrywhen操作符的用法：https://blog.csdn.net/samuel__liu/article/details/78691664
+主动抛出错误：return Observable.just(response);
+考虑情况：
+有时候参数可变。

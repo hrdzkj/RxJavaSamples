@@ -41,6 +41,7 @@ public class TokenAdvancedFragment extends BaseFragment {
         Toast.makeText(getActivity(), R.string.token_destroyed, Toast.LENGTH_SHORT).show();
     }
 
+
     @OnClick(R.id.requestBt)
     void upload() {
         tokenUpdated = false;
