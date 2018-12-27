@@ -44,7 +44,25 @@
         <include layout="@layout/tip_bt" />
 
     </LinearLayout>
+<TextView
+    android:id="@+id/textToRxLifecycle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="toRxLifeCycleActivty防止内存泄漏"
+    android:textColor="@color/cardview_dark_background"
+    android:padding="30px"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorAccent"/>
 
+    <TextView
+        android:id="@+id/fragmentoRxLifecycle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fragment生命周期释放RxJava内存"
+        android:textColor="@color/cardview_dark_background"
+        android:padding="30px"/>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
