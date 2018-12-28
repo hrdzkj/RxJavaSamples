@@ -145,7 +145,7 @@ public class ElementaryFragment extends BaseFragment implements LifecycleRegistr
         dataService.baidu("http://wwww.baidu.com").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).compose(provider.<String>bindToLifecycle()).subscribe(new Consumer<String>() {
             @Override
             public void accept(String s) {
-                Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "成功请求返回", Toast.LENGTH_SHORT).show();
             }
         });
 

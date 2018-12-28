@@ -54,4 +54,17 @@ observeOn(): 指定 Subscriber 所运行在的线程。或者叫做事件消费�
 retrywhen操作符的用法：https://blog.csdn.net/samuel__liu/article/details/78691664
 主动抛出错误：return Observable.just(response);
 考虑情况：
-有时候参数可变。
+有时候参数可变。   
+
+
+Android Lifecycle  
+LifecycleObserver接口（ Lifecycled的观察者） ---观察者，当生命周期方法调用时会收到通知 
+LifecycleOwner接口（Lifecycle持有者）  ---Fragment/Activity
+Lifecycle(生命周期)  
+State(当前生命周期所处状态)  
+Event(当前生命周期改变对应的事件)
+使用场景 https://www.cnblogs.com/zqlxtt/p/6887938.html 总结
+1）减少在activity/fragment中写生命周期方法,保持activity/fragment的简洁
+2）LiveData和ViewModel
+LiveData 设计的目的是能够保证数据和UI统一。当LiveData对象保存的数据发生变化时，onChanged()方法可以进行相应的处理。
+ViewModel 设计的目的是解决activity重建数据不易保存，急fragmeng/activity间数据共享的问题。 ViewModelProviders.of(getActivity()).get(MyViewModel .class);
