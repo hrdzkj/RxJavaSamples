@@ -16,9 +16,14 @@ import com.squareup.leakcanary.RefWatcher;
 import com.trello.lifecycle2.android.lifecycle.AndroidLifecycle;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import java.io.IOException;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -49,7 +54,8 @@ public class MemoryReleaseActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // retrofitString();
                 // retrofitResponse();
-                retrofitRxjava();
+                //retrofitRxjava();
+                test();
             }
         });
     }
@@ -137,13 +143,13 @@ public class MemoryReleaseActivity extends AppCompatActivity {
     @SuppressLint("CheckResult")
     private void retrofitRxjava() {
         Log.v("liuyi---->", "执行了click");
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
-        }
+        // if (disposable != null && !disposable.isDisposed()) {
+        //    disposable.dispose();
+        // }
 
         //通过retrofit和定义的有网络访问方法的接口关联
         DataService.baiduRxJava dataService = getRetrofitClient().create(DataService.baiduRxJava.class);
-        dataService.baidu("http://wwww.baidu.com").flatMap(new Function<String, Observable<String>>() {
+        dataService.baidu("http://wwww.baidu.com").unsubscribeOn(Schedulers.io()).flatMap(new Function<String, Observable<String>>() {
             @Override
             public Observable<String> apply(String s) throws Exception {
                 return getRetrofitClient().create(DataService.baiduRxJava.class).baidu("http://wwww.baidu.com");
@@ -156,6 +162,30 @@ public class MemoryReleaseActivity extends AppCompatActivity {
                         Toast.makeText(MemoryReleaseActivity.this, "成功请求返回", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+    }
+
+
+    @SuppressLint("CheckResult")
+    private void test() {
+        Log.e("----->", "mainThread.name)= " + Thread.currentThread().getName());
+
+        Observable.create((ObservableOnSubscribe<String>) emitter -> {
+            Log.d("----->", "Observable thread is : " + Thread.currentThread().getName());
+            emitter.onNext("emit data");
+        }).map(s -> {
+            Log.e("----->", "map1.id)= " + Thread.currentThread().getName()); //确定默认线程id
+            return s;
+        }).observeOn(AndroidSchedulers.mainThread())
+        .map(s -> {
+            Log.e("----->", "map2.id)= " + Thread.currentThread().getName()); // 确定是否observeOn，下一个操作符线程是否变了
+            return s;
+        }).map(s -> {
+            Log.e("----->", "map3.id)= " + Thread.currentThread().getName()); // 确定是否observeOn，下一个操作符线程是否变了
+            return s;
+        }).subscribeOn(Schedulers.io()).subscribe(s -> Log.e("----->", "subscriber.id)= " + Thread.currentThread().getName()), throwable -> {
+            Log.e("----->", "error");
+        });
 
     }
 

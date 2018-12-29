@@ -67,4 +67,14 @@ Event(当前生命周期改变对应的事件)
 1）减少在activity/fragment中写生命周期方法,保持activity/fragment的简洁
 2）LiveData和ViewModel
 LiveData 设计的目的是能够保证数据和UI统一。当LiveData对象保存的数据发生变化时，onChanged()方法可以进行相应的处理。
-ViewModel 设计的目的是解决activity重建数据不易保存，急fragmeng/activity间数据共享的问题。 ViewModelProviders.of(getActivity()).get(MyViewModel .class);
+ViewModel 设计的目的是解决activity重建数据不易保存，急fragmeng/activity间数据共享的问题。 ViewModelProviders.of(getActivity()).get(MyViewModel .class);  
+
+https://www.jianshu.com/p/24af4c102f62
+dagger2
+负责依赖对象的创建。使用依赖注入的方式构建对象，模块间解耦。
+
+********************************
+rxjava内存泄漏问题
+autoDispose---注入了as操作符
+rxLifeCycle--需要从RxActivity集成
+都不是解决内存泄漏的好办法
