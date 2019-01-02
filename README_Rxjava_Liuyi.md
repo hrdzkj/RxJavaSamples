@@ -85,7 +85,18 @@ rxLifeCycle--需要从RxActivity集成
 都不是解决内存泄漏的好办法
 
 
-*****************
-MVVM的demo请看https://github.com/googlesamples/android-architecture-components.git BasicSample
+*****************  
+MVVM的demo请看https://github.com/googlesamples/android-architecture-components.git BasicSample项目的ProductFragment.java  
+问题：1) 网络异常传递null 能否处理? 
+需要翻墙 https://developer.android.com/jetpack/docs/guide#addendum     
+2)Rxjava Disposed放在ViewModel生命周期？  
+直到当前Activity被系统销毁时，Framework会调用ViewModel的onCleared()方法，我们可以在onCleared()方法中做一些资源清理操作。  
+3）https://www.jianshu.com/p/02beaf0507ab  一些注意的问题  
+标注使用retrofit方式
+public interface Webservice {  
+    @GET("/users/{user}")  
+    Call<User> getUser(@Path("user") String userId);  
+}  
+
 
 
