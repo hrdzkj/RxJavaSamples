@@ -68,6 +68,11 @@ Event(当前生命周期改变对应的事件)
 2）LiveData和ViewModel
 LiveData 设计的目的是能够保证数据和UI统一。当LiveData对象保存的数据发生变化时，onChanged()方法可以进行相应的处理。
 ViewModel 设计的目的是解决activity重建数据不易保存，急fragmeng/activity间数据共享的问题。 ViewModelProviders.of(getActivity()).get(MyViewModel .class);  
+ViewModel 有两个功能, 第一个功能可以使 ViewModel 以及 ViewModel 中的数据在屏幕旋转或配置更改引起的 Activity 重建时存活下来, 重建后数据可继续使用,
+第二个功能可以帮助开发者轻易实现 Fragment 与 Fragment 之间, Activity 与 Fragment 之间的通讯以及共享数据
+M-------------V------------VM
+Model         View         ViewModel处理业务逻辑以及获取数据
+
 
 https://www.jianshu.com/p/24af4c102f62
 dagger2
@@ -78,3 +83,9 @@ rxjava内存泄漏问题
 autoDispose---注入了as操作符
 rxLifeCycle--需要从RxActivity集成
 都不是解决内存泄漏的好办法
+
+
+*****************
+MVVM的demo请看https://github.com/googlesamples/android-architecture-components.git BasicSample
+
+
