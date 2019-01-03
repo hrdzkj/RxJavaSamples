@@ -1,0 +1,26 @@
+mvvm--实现了界面和业务解耦，drager2实现了对象的使用和对象的创建解耦
+@Component 
+1.）里面的void inject()的参数表示要将依赖注入到的宿主；
+2.）告诉drager2可以在那个类进行注入，最终是为了自动生成实现类Dagger+我们所定义的Component的名字"；
+3.）xxxComponent.create().inject(this); // 应该是真正执行注入的地方，因为该方法执行成功即可以调用对象
+4.) xxxComponent.build()返回的是什么？ build模式可以传module作为参数
+
+1.）标注要注入的变量
+2.）类的构造参数使用@Inject标注，告诉dagger2它可以实例化这个类；
+
+@Module
+a.直接给构造函数添加@Inject标注的方式对于我们自己编写的代码肯定是没问题，但若是我们引入的第三方库不能随意改动代码的话就不方便了。
+比如需要注入OkHttpClient和RetrofitManager等第三方库的对象
+b.复杂的Module
+1)如果我们希望在使用的时候才传入参数，直接使用Module的构造参数传入即可，这种用法注意在xxxxComponent实例化的时候使用builder模式传入了我们需要传入的值
+2）Module中其中一个依赖又要依赖另外一个依赖，如果被@Provides标注的方法带有参数，dagger2会自动寻找本Module中其他返回值类型为参数的类型的且被@Provides标注的方法，如果本Module中找不到就会去看这个类的构造参数是否被@Inject标注了（所以一般情况下Module中方法的返回值都不能相同，当然也有办法使多个方法的返回值类型相同，有需要的朋友请自行研究）；
+3）其中一个Component跟另外一个Component所提供的依赖有重复的时候。（未完全理解）
+我们没有必要完全再写一遍，有两种方法：
+a.@Component(dependencies = BaseComponent.class, modules = ...)，理解起来就像extends关键字
+父Component中要显式的写出需要暴露可提供给子Component的依赖？？？
+
+b.subComponent方式：使用 @Subcomponent(modules = ...) 标记子 Component，同时在 BaseComponent 中提供一个返回子 Component 对象的方法
+父Component中定义获得子Component的方法？？？
+https://blog.csdn.net/ziwang_/article/details/53354897
+
+需要理解：不是inject套inject
