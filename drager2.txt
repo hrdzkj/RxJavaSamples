@@ -1,6 +1,7 @@
 mvvm--实现了界面和业务解耦，drager2实现了对象的使用和对象的创建解耦
 @Component 
-1.）里面的void inject()的参数表示要将依赖注入到的宿主；
+1.）里面的void inject()的参数表示要将依赖注入到的宿主；  
+   把module中的对象暴露出来，以便其他依赖本component的component调用
 2.）告诉drager2可以在那个类进行注入，最终是为了自动生成实现类Dagger+我们所定义的Component的名字"；
 3.）xxxComponent.create().inject(this); // 应该是真正执行注入的地方，因为该方法执行成功即可以调用对象
 4.) xxxComponent.build()返回的是什么？ build模式可以传module作为参数
@@ -16,11 +17,18 @@ b.复杂的Module
 2）Module中其中一个依赖又要依赖另外一个依赖，如果被@Provides标注的方法带有参数，dagger2会自动寻找本Module中其他返回值类型为参数的类型的且被@Provides标注的方法，如果本Module中找不到就会去看这个类的构造参数是否被@Inject标注了（所以一般情况下Module中方法的返回值都不能相同，当然也有办法使多个方法的返回值类型相同，有需要的朋友请自行研究）；
 3）其中一个Component跟另外一个Component所提供的依赖有重复的时候。（未完全理解）
 我们没有必要完全再写一遍，有两种方法：
-a.@Component(dependencies = BaseComponent.class, modules = ...)，理解起来就像extends关键字
-父Component中要显式的写出需要暴露可提供给子Component的依赖？？？
+a.@Component(dependencies = BaseComponent.class, modules = ...)，理解起来是依赖。
+父Component中要显式的写出需要暴露可提供给子Component的依赖。
 
-b.subComponent方式：使用 @Subcomponent(modules = ...) 标记子 Component，同时在 BaseComponent 中提供一个返回子 Component 对象的方法
-父Component中定义获得子Component的方法？？？
-https://blog.csdn.net/ziwang_/article/details/53354897
+b.subComponent方式：使用 @Subcomponent(modules = ...) 标记子 Component，同时在 BaseComponent 中提供一个返回子Component 对象的方法。理解起来，就是subComponent标记的这个是个子组件，是扩展组件，不会生成DaggerXxxComponent，并不是集成关系的子孙组件。
+
+
+@Scope
+作用域
+
+Dagger2使用中的核心技巧包括@Subcomponent和@Scope，这两个注解对架构的层次关系有非常重要的作用。
+作用域是Dagger2中一个比较重要的概念，各种奇淫巧技，比如单例，都是通过它来实现的。
+然而一个Componenta(组件)同时可以作为Module存在，反过来一个Module也可以作为Component存在。
+什么时候需要拆分为不同的层级(Component)，不同层级之间是又是什么关系呢？
 
 需要理解：不是inject套inject

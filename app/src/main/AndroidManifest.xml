@@ -23,6 +23,9 @@
 
         <activity android:name=".MemoryReleaseActivity"
             android:launchMode="singleTop"/>
+
+        <activity android:name="com.dagger2.dependencies.UseDaggerActivity"
+            android:launchMode="singleTop"/>
     </application>
 
 </manifest>

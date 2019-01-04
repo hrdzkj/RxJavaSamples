@@ -1,0 +1,18 @@
+ext {
+
+
+
+    def dependVersion = [
+
+            daggerVersion : "2.15",
+    ]
+
+    dependencies = [
+
+            "dagger"                    : "com.google.dagger:dagger:${dependVersion.daggerVersion}",
+            "dagger-android"            : "com.google.dagger:dagger-android:${dependVersion.daggerVersion}",
+            "dagger-android-support"    : "com.google.dagger:dagger-android-support:${dependVersion.daggerVersion}",
+            "dagger-android-processor"  : "com.google.dagger:dagger-android-processor:${dependVersion.daggerVersion}",
+            "dagger-compiler"           : "com.google.dagger:dagger-compiler:${dependVersion.daggerVersion}",
+    ]
+}

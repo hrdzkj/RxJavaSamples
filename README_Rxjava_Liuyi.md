@@ -85,9 +85,10 @@ rxLifeCycle--需要从RxActivity集成
 都不是解决内存泄漏的好办法
 
 
-*****************  
+*****************MVVM********************  
 MVVM的demo请看https://github.com/googlesamples/android-architecture-components.git BasicSample项目的ProductFragment.java  
-问题：1) 网络异常传递null 能否处理? 
+问题：  
+1) 网络异常传递null 能否处理? 
 需要翻墙 https://developer.android.com/jetpack/docs/guide#addendum     
 2)Rxjava Disposed放在ViewModel生命周期？  
 直到当前Activity被系统销毁时，Framework会调用ViewModel的onCleared()方法，我们可以在onCleared()方法中做一些资源清理操作。  
@@ -97,6 +98,57 @@ public interface Webservice {
     @GET("/users/{user}")  
     Call<User> getUser(@Path("user") String userId);  
 }  
+4) 类似海金汇，去购买，涉及到一些界面参数和跳转如何处理
+传入界面值到ViewModel进行业务判断，传入Context进行调用startActivity  .
+所以这样实现界面和业务逻辑分开,无论是android，还是ios或者pc端，服务端，应该都是这样都的  
+  
+5)有类似用户信息、银行卡信息这类公共数据，不是绑定activity/fragment生命周期的，应该如何监听这类数据的变化  
+5.1)不用考虑多线程的：封装java.util.Observer弱引用即可  
+private static List<SoftReference<Observer>> mObserversUpdateUserInfo= new ArrayList<>();  
+5.2)考虑多线程的使用RegistrantList  
+  
+6）代码结构中，ViewModel类如何命名和存放  
+根据https://github.com/googlesamples/android-architecture-components.git的代码来看  
+有ui,viewmodel,model包， ViewModel命名为谢谢小ListViewModel,xxxViewModel  
+
+7) Resource<T>类的使用方法  
+结合共青团看看如何封装，整理到Sample.  
+根据单一指责原则，请求是网络层的问题，请求是返回Observerable<String>,后面返回给业务层/界面层是Resource<T>。    
+Resource<T> 只是封装数据状态和数组的一个容器。  
+
+8）ViewModelProvider.Factory的作用  
+接口定义了一个创建 ViewModel 的接口。  
+难道是为了实现全局公共数据的观察？  
+当创建一些需要传递参数的ViewModel时候用到，通过ViewModelProvider.Factory作为中转  
+参考：https://stackoverflow.com/questions/53184320/how-to-pass-custom-parameters-to-a-viewmodel-using-factory/53184891#53184891  
+
+9）实现自定义的Factory的时候，可以重写ViewModelProvider.NewInstanceFactory，也可以实现ViewModelProvider.Factory接口  
+两着有什么区别  
+https://stackoverflow.com/questions/52467801/what-are-the-differences-between-viewmodelprovider-factory-and-viewmodelprovider  
+具体实现的例子，就像类一样实现即可。
+  
+10）new关键字和newInstance()方法的区别  
+new关键字能调用任何构造方法。  
+newInstance()只能调用无参构造方法。  
+
+11)ViewModel和AndroidViewModel的区别  
+AndroidViewModel封装了ViewModel，需要传入application而已。  
+  
+12)mutablelivedata和livedata区别   
+使用LiveData，首先建立LiveData数据，一般继承自MutableLiveData.  
+MutableLiveData是LiveData的子类，添加了公共方法setValue和postValue，方便开发者直接使用。  
+
+13）mutablelivedata和MediatorLiveData  
+需要转换时候用mutablelivedata。  
+9）封装ViewModel :是否RxJava,封装Resorce,前端如何或者状态和数据 。  
+todo 如何封装Resorce到ViewModel 
+
+
+
+ 
+
+
+
 
 
 

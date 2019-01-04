@@ -19,9 +19,9 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.dagger2.dependencies.UseDaggerActivity;
 import com.rengwuxian.rxjavasamples.App;
 import com.rengwuxian.rxjavasamples.BaseFragment;
-import com.rengwuxian.rxjavasamples.MemoryReleaseActivity;
 import com.rengwuxian.rxjavasamples.network.Network;
 import com.rengwuxian.rxjavasamples.R;
 import com.rengwuxian.rxjavasamples.adapter.ZhuangbiListAdapter;
@@ -36,7 +36,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -98,7 +97,8 @@ public class ElementaryFragment extends BaseFragment implements LifecycleRegistr
         view.findViewById(R.id.textToRxLifecycle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), MemoryReleaseActivity.class));
+                // startActivity(new Intent(getActivity(), MemoryReleaseActivity.class));
+                startActivity(new Intent(getActivity(), UseDaggerActivity.class));
             }
         });
 
