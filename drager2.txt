@@ -23,8 +23,8 @@ a.@Component(dependencies = BaseComponent.class, modules = ...)，理解起来�
 b.subComponent方式：使用 @Subcomponent(modules = ...) 标记子 Component，同时在 BaseComponent 中提供一个返回子Component 对象的方法。理解起来，就是subComponent标记的这个是个子组件，是扩展组件，不会生成DaggerXxxComponent，并不是集成关系的子孙组件。
 
 
-@Scope
-作用域
+@Scope 作用域
+两个拥有依赖关系的 Component 是不能有相同 @Scope 注解的！使用@SubComponent 则可以使用相同的@Scope注解（很重要！！！！）
 
 Dagger2使用中的核心技巧包括@Subcomponent和@Scope，这两个注解对架构的层次关系有非常重要的作用。
 作用域是Dagger2中一个比较重要的概念，各种奇淫巧技，比如单例，都是通过它来实现的。
